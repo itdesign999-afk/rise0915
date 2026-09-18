@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>제사상 차림 안내서</title>
+<style>
+:root{
+  --bg:#FAFAF7;
+  --card:#FFFFFF;
+  --ink:#1F2328;
+  --sub:#6B7280;
+  --point:#C81D25;
+  --point-dark:#8F1319;
+  --gold:#C99A2E;
+  --line:#E5E7EB;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Noto Sans KR','Malgun Gothic','맑은 고딕','Apple SD Gothic Neo',sans-serif;
+  font-size:17px;
+  font-weight:400;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+
+/* ---------- 헤더 ---------- */
+.site-header{
+  background:var(--card);
+  border-bottom:1px solid var(--line);
+  position:sticky;top:0;z-index:20;
+}
+.header-inner{
+  display:flex;align-items:center;justify-content:space-between;
+  height:72px;
+}
+.brand{
+  font-size:22px;font-weight:700;color:var(--point);
+  letter-spacing:-0.3px;
+}
+.nav{display:flex;gap:8px;}
+.nav button{
+  font-family:inherit;font-size:17px;font-weight:400;
+  color:var(--sub);background:none;border:0;cursor:pointer;
+  padding:8px 16px;border-radius:8px;
+  border-bottom:2px solid transparent;
+  transition:color .2s ease, background .2s ease, border-color .2s ease;
+}
+.nav button:hover{color:var(--ink);background:var(--bg);}
+.nav button.active{color:var(--point);font-weight:700;border-bottom-color:var(--point);}
+
+/* ---------- 공통 ---------- */
+main{padding:32px 0 8px;}
+.view{display:none;animation:fade .2s ease;}
+.view.active{display:block;}
+@keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+h1{font-size:32px;font-weight:700;margin:0 0 8px;letter-spacing:-0.5px;}
+h2{font-size:22px;font-weight:700;margin:0 0 16px;letter-spacing:-0.3px;}
+.lead{font-size:14px;color:var(--sub);margin:0 0 32px;}
+.section{margin-top:32px;}
+
+.btn{
+  font-family:inherit;font-size:17px;font-weight:700;
+  background:var(--point);color:#fff;border:0;border-radius:8px;
+  padding:8px 24px;cursor:pointer;transition:background .2s ease;
+}
+.btn:hover{background:var(--point-dark);}
+
+.tag{
+  display:inline-block;font-size:14px;color:var(--sub);
+  border:1px solid var(--line);border-radius:8px;
+  padding:0 8px;line-height:24px;
+}
+
+.icon{display:block;}
+.icon-64{width:64px;height:64px;}
+.icon-160{width:160px;height:160px;}
+
+/* ---------- 목록 ---------- */
+.grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:16px;
+}
+.food-card{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:24px;text-align:center;cursor:pointer;
+  box-shadow:0 1px 2px rgba(31,35,40,.04);
+  transition:transform .2s ease, box-shadow .2s ease;
+  font-family:inherit;
+}
+.food-card:hover{transform:translateY(-4px);box-shadow:0 6px 16px rgba(31,35,40,.08);}
+.food-card .icon-64{margin:0 auto 16px;}
+.food-card .name{font-size:17px;font-weight:700;margin-bottom:8px;}
+
+/* ---------- 진설도 ---------- */
+.chart-card{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:32px;box-shadow:0 1px 2px rgba(31,35,40,.04);
+}
+.chart-card svg{width:100%;height:auto;display:block;}
+
+/* ---------- 레시피 ---------- */
+.recipe{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:32px;box-shadow:0 1px 2px rgba(31,35,40,.04);
+  display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:start;
+}
+.recipe-visual{text-align:center;}
+.recipe-visual .icon-160{margin:0 auto 16px;}
+.recipe-visual .name{font-size:22px;font-weight:700;margin-bottom:8px;}
+.steps{list-style:none;counter-reset:s;margin:0;padding:0;}
+.steps li{
+  counter-increment:s;position:relative;
+  padding:8px 0 8px 40px;border-bottom:1px solid var(--line);
+}
+.steps li:last-child{border-bottom:0;}
+.steps li::before{
+  content:counter(s);position:absolute;left:0;top:10px;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--bg);border:1px solid var(--line);color:var(--sub);
+  font-size:14px;font-weight:700;text-align:center;line-height:22px;
+}
+.ing-box{
+  margin-top:24px;padding-top:24px;border-top:1px solid var(--line);
+}
+.ing-box h2{font-size:22px;}
+.ing-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 32px;}
+.ing-row{display:flex;justify-content:space-between;gap:16px;padding:8px 0;border-bottom:1px solid var(--line);}
+.ing-row .k{color:var(--sub);font-size:14px;}
+.nocook-msg{
+  margin:0;padding:24px;border-radius:12px;background:var(--bg);
+  border:1px solid var(--line);color:var(--ink);text-align:center;
+}
+.empty{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:32px;text-align:center;color:var(--sub);
+  box-shadow:0 1px 2px rgba(31,35,40,.04);
+}
+.empty p{margin:0 0 24px;}
+
+/* ---------- 재료 ---------- */
+.filters{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap;}
+.filters button{
+  font-family:inherit;font-size:14px;font-weight:400;
+  background:var(--card);color:var(--sub);
+  border:1px solid var(--line);border-radius:8px;
+  padding:8px 16px;cursor:pointer;
+  transition:background .2s ease, color .2s ease, border-color .2s ease;
+}
+.filters button:hover{color:var(--ink);}
+.filters button.active{background:var(--point);border-color:var(--point);color:#fff;font-weight:700;}
+
+.table-card{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 1px 2px rgba(31,35,40,.04);overflow:hidden;
+}
+table{width:100%;border-collapse:collapse;}
+thead th{
+  font-size:14px;font-weight:700;color:var(--sub);text-align:left;
+  padding:16px 24px;background:var(--bg);border-bottom:1px solid var(--line);
+  white-space:nowrap;
+}
+tbody td{
+  padding:16px 24px;border-bottom:1px solid var(--line);
+  vertical-align:top;
+}
+tbody tr:last-child td{border-bottom:0;}
+tbody tr{transition:background .2s ease;}
+tbody tr:hover{background:var(--bg);}
+td.food-name{font-weight:700;white-space:nowrap;}
+td.qty{color:var(--sub);font-size:14px;white-space:nowrap;}
+
+.nocook-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px;}
+.nocook-card{
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:24px 8px;text-align:center;
+  box-shadow:0 1px 2px rgba(31,35,40,.04);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.nocook-card:hover{transform:translateY(-4px);box-shadow:0 6px 16px rgba(31,35,40,.08);}
+.nocook-card .icon-64{margin:0 auto 16px;}
+.nocook-card .name{font-size:17px;font-weight:700;}
+.nocook-card .sub{font-size:14px;color:var(--sub);}
+
+/* ---------- 주의사항 ---------- */
+.notice{
+  margin:32px 0 64px;padding:32px;
+  background:var(--card);border:1px solid var(--line);border-radius:12px;
+  border-left:4px solid var(--gold);
+  box-shadow:0 1px 2px rgba(31,35,40,.04);
+}
+.notice ul{margin:0;padding-left:24px;}
+.notice li{margin-bottom:8px;}
+.notice li:last-child{margin-bottom:0;}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">제사상 차림 안내서</div>
+    <nav class="nav" id="nav">
+      <button type="button" data-tab="list" class="active">제사상 목록</button>
+      <button type="button" data-tab="chart">진설도</button>
+      <button type="button" data-tab="recipe">레시피</button>
+      <button type="button" data-tab="ingredients">재료</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- A. 제사상 목록 -->
+  <section class="view active" id="view-list">
+    <h1>제사상 목록</h1>
+    <p class="lead">표준 제사상에 올리는 음식 15가지입니다. 음식을 누르면 만드는 순서를 볼 수 있어요.</p>
+    <div class="filters" id="type-select"></div>
+    <p class="lead" id="type-desc" style="margin:-8px 0 24px"></p>
+    <div class="grid" id="food-grid"></div>
+  </section>
+
+  <!-- 진설도 -->
+  <section class="view" id="view-chart">
+    <h1>진설도</h1>
+    <p class="lead">제사상을 위에서 내려다본 배치도입니다. 집안마다 차이가 있을 수 있습니다.</p>
+    <div class="chart-card" id="chart-card"></div>
+  </section>
+
+  <!-- B. 레시피 -->
+  <section class="view" id="view-recipe">
+    <h1>레시피</h1>
+    <p class="lead">음식 하나의 만드는 순서와 재료를 보여줍니다.</p>
+    <div id="recipe-body"></div>
+  </section>
+
+  <!-- 재료 -->
+  <section class="view" id="view-ingredients">
+    <h1>재료</h1>
+    <p class="lead">15가지 음식의 재료와 권장 분량을 한 번에 확인하세요.</p>
+    <div class="filters" id="filters"></div>
+    <div id="ing-tablewrap"></div>
+    <div class="section" id="nocook-section"></div>
+  </section>
+
+  <!-- 준비 시 주의사항 -->
+  <section class="notice">
+    <h2>준비 시 주의사항</h2>
+    <ul>
+      <li>마늘, 파, 고춧가루, 후추 등 자극적이거나 붉은 양념 재료는 일절 사용하지 않는다.</li>
+      <li>생선은 비늘이 있고 등이 푸르지 않은 흰살생선(조기, 민어 등)을 주로 사용하며, '치'자로 끝나는 생선(갈치, 삼치 등)은 올리지 않는다.</li>
+      <li>과일과 생선, 전의 개수는 음양오행 원칙에 따라 홀수(1, 3, 5)로 준비하는 것이 전통 관례이다.</li>
+      <li>과일류와 청주, 북어포는 별도의 가열 조리 없이 깨끗이 손질하여 사용한다.</li>
+    </ul>
+  </section>
+
+</main>
+
+<script>
+/* =========================================================
+   아이콘 (모두 직접 그린 SVG, 외부 이미지 없음)
+   ========================================================= */
+var ICONS = {
+  yukjeok:
+    '<path d="M4 32 H60" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>' +
+    '<rect x="10" y="21" width="14" height="22" rx="3" fill="#C81D25" stroke="#1F2328" stroke-width="4"/>' +
+    '<rect x="26" y="21" width="14" height="22" rx="3" fill="#C81D25" stroke="#1F2328" stroke-width="4"/>' +
+    '<rect x="42" y="21" width="14" height="22" rx="3" fill="#C81D25" stroke="#1F2328" stroke-width="4"/>',
+
+  dongtaejeon:
+    '<ellipse cx="32" cy="36" rx="25" ry="17" fill="#FFFFFF" stroke="#1F2328" stroke-width="4"/>' +
+    '<ellipse cx="32" cy="36" rx="14" ry="8" fill="#C81D25" stroke="#1F2328" stroke-width="3.5"/>' +
+    '<path d="M16 16 L19 9 M32 14 L32 7 M48 16 L45 9" fill="none" stroke="#6B7280" stroke-width="3.5" stroke-linecap="round"/>',
+
+  dubu:
+    '<rect x="6" y="20" width="24" height="24" rx="3" fill="#FFFFFF" stroke="#1F2328" stroke-width="4"/>' +
+    '<rect x="34" y="20" width="24" height="24" rx="3" fill="#FFFFFF" stroke="#1F2328" stroke-width="4"/>' +
+    '<path d="M11 36 H25 M39 36 H53" fill="none" stroke="#C81D25" stroke-width="3.5" stroke-linecap="round"/>' +
+    '<path d="M6 54 H58" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>',
+
+  eojeok:
+    '<path d="M48 26 C44 19, 34 15, 25 17 C16 19, 9 25, 7 31 C9 37, 16 43, 25 45 C34 47, 44 43, 48 36 Z" fill="#C81D25" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M48 26 L57 18 L59 31 L57 44 L48 36 Z" fill="#6B7280" stroke="#1F2328" stroke-width="3.5" stroke-linejoin="round"/>' +
+    '<path d="M25 17 L30 24 L36 16" fill="none" stroke="#1F2328" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '<circle cx="16" cy="28" r="2.5" fill="#1F2328"/>' +
+    '<path d="M8 52 H56" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>',
+
+  gaeng:
+    '<path d="M25 16 C25 10, 31 10, 31 16 M39 18 C39 11, 45 11, 45 18" fill="none" stroke="#6B7280" stroke-width="3.5" stroke-linecap="round"/>' +
+    '<path d="M7 28 H57 L51 48 C50 52, 44 55, 36 55 H28 C20 55, 14 52, 13 48 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M11 32 H53 L48 46 C47 49, 42 51, 36 51 H28 C22 51, 17 49, 16 46 Z" fill="#C81D25"/>' +
+    '<rect x="21" y="33" width="11" height="9" rx="1.5" fill="#FFFFFF" stroke="#1F2328" stroke-width="3"/>' +
+    '<rect x="36" y="35" width="9" height="7" rx="1.5" fill="#6B7280" stroke="#1F2328" stroke-width="3"/>',
+
+  samsaektang:
+    '<path d="M3 26 H21 L18 44 C17 47, 15 48, 12 48 C9 48, 7 47, 6 44 Z" fill="#C81D25" stroke="#1F2328" stroke-width="3.5" stroke-linejoin="round"/>' +
+    '<path d="M23 26 H41 L38 44 C37 47, 35 48, 32 48 C29 48, 27 47, 26 44 Z" fill="#6B7280" stroke="#1F2328" stroke-width="3.5" stroke-linejoin="round"/>' +
+    '<path d="M43 26 H61 L58 44 C57 47, 55 48, 52 48 C49 48, 47 47, 46 44 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="3.5" stroke-linejoin="round"/>' +
+    '<path d="M12 20 C12 14, 18 14, 18 20 M46 20 C46 14, 52 14, 52 20" fill="none" stroke="#6B7280" stroke-width="3" stroke-linecap="round"/>',
+
+  me:
+    '<path d="M12 32 C16 14, 48 14, 52 32 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M8 32 H56 L50 50 C49 54, 43 57, 35 57 H29 C21 57, 15 54, 14 50 Z" fill="#C81D25" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>',
+
+  namul:
+    '<path d="M4 46 C7 28, 23 28, 26 46 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M38 46 C41 28, 57 28, 60 46 Z" fill="#C81D25" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M20 46 C23 22, 41 22, 44 46 Z" fill="#6B7280" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M6 52 H58" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>',
+
+  nabak:
+    '<path d="M5 24 H59 L53 44 C52 48, 45 51, 37 51 H27 C19 51, 12 48, 11 44 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M8 32 H56" fill="none" stroke="#C81D25" stroke-width="3.5"/>' +
+    '<rect x="17" y="25" width="10" height="9" rx="1.5" fill="#FFFFFF" stroke="#1F2328" stroke-width="3"/>' +
+    '<rect x="34" y="27" width="10" height="9" rx="1.5" fill="#FFFFFF" stroke="#1F2328" stroke-width="3"/>',
+
+  /* --- 제작 완료된 6개 SVG (그대로 사용) --- */
+  bugeo:
+    '<path d="M8 30 C10 24,16 20,24 20 L44 20 C50 20,56 24,58 30 C56 36,50 40,44 40 L24 40 C16 40,10 36,8 30 Z" fill="#C81D25" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M44 20 L54 12 L50 30 L54 48 L44 40 Z" fill="#6B7280" stroke="#1F2328" stroke-width="3.5" stroke-linejoin="round"/>' +
+    '<path d="M16 24 L20 36 M24 22 L27 38 M32 21 L34 39 M40 22 L42 38" fill="none" stroke="#1F2328" stroke-width="2" stroke-linecap="round" opacity="0.5"/>' +
+    '<circle cx="13" cy="29" r="2" fill="#1F2328"/>',
+
+  cheongju:
+    '<path d="M27 14 L37 14 L37 20 L40 26 C42 30,43 34,43 40 L43 52 C43 55,41 57,38 57 L26 57 C23 57,21 55,21 52 L21 40 C21 34,22 30,24 26 L27 20 Z" fill="#C81D25" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M22 40 L42 40" fill="none" stroke="#FAFAF7" stroke-width="3"/>' +
+    '<rect x="26" y="9" width="12" height="6" rx="1.5" fill="#6B7280" stroke="#1F2328" stroke-width="3"/>' +
+    '<path d="M47 46 L57 46 L55 54 C54.5 56,52.5 57,51 57 L53 57 C51.5 57,49.5 56,49 54 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="3.5" stroke-linejoin="round"/>' +
+    '<path d="M52 57 L52 60 M48 60 L56 60" fill="none" stroke="#1F2328" stroke-width="3.5" stroke-linecap="round"/>',
+
+  daechubam:
+    '<path d="M38 20 C 30 20, 26 28, 28 36 C 29 44, 36 50, 42 50 C 48 50, 52 44, 51 36 C 50 28, 46 20, 38 20 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M38 20 L 34 12 L 42 16 Z" fill="#6B7280" stroke="#1F2328" stroke-width="3" stroke-linejoin="round"/>' +
+    '<ellipse cx="24" cy="40" rx="14" ry="11" fill="#C81D25" stroke="#1F2328" stroke-width="4"/>' +
+    '<path d="M24 29 L 24 22" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>',
+
+  bae:
+    '<path d="M32 18 C 24 18, 21 26, 22 32 C 18 36, 15 44, 20 50 C 24 56, 40 56, 44 50 C 49 44, 46 36, 42 32 C 43 26, 40 18, 32 18 Z" fill="#C81D25" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M32 18 L 32 10" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>' +
+    '<path d="M32 13 C 26 10, 22 14, 26 18 C 30 20, 33 17, 32 13 Z" fill="#6B7280" stroke="#1F2328" stroke-width="3" stroke-linejoin="round"/>',
+
+  sagwa:
+    '<path d="M32 24 C 20 22, 12 30, 13 40 C 14 50, 22 56, 32 56 C 42 56, 50 50, 51 40 C 52 30, 44 22, 32 24 Z" fill="#C81D25" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M27 24 C 29 20, 35 20, 37 24" fill="none" stroke="#1F2328" stroke-width="4" stroke-linecap="round"/>' +
+    '<path d="M32 22 L 32 12" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>' +
+    '<path d="M32 15 C 38 12, 42 16, 38 20 C 34 22, 31 19, 32 15 Z" fill="#6B7280" stroke="#1F2328" stroke-width="3" stroke-linejoin="round"/>',
+
+  gotgam:
+    '<path d="M20 24 C 18 34, 18 46, 24 52 C 28 56, 36 56, 40 52 C 46 46, 46 34, 44 24 C 40 30, 24 30, 20 24 Z" fill="#C81D25" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M25 34 C 30 37, 34 37, 39 34" fill="none" stroke="#1F2328" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>' +
+    '<path d="M24 42 C 30 45, 34 45, 40 42" fill="none" stroke="#1F2328" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>' +
+    '<path d="M22 24 L 32 20 L 42 24 L 32 27 Z" fill="#6B7280" stroke="#1F2328" stroke-width="3" stroke-linejoin="round"/>' +
+    '<path d="M32 20 L 32 12" fill="none" stroke="#6B7280" stroke-width="4" stroke-linecap="round"/>',
+
+  /* --- 차례상 전용 2종 --- */
+  tteokguk:
+    '<path d="M7 28 H57 L51 48 C50 52, 44 55, 36 55 H28 C20 55, 14 52, 13 48 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M11 32 H53 L48 46 C47 49, 42 51, 36 51 H28 C22 51, 17 49, 16 46 Z" fill="#C81D25"/>' +
+    '<ellipse cx="23" cy="42" rx="7" ry="4" fill="#FFFFFF" stroke="#1F2328" stroke-width="2.5"/>' +
+    '<ellipse cx="38" cy="39" rx="7" ry="4" fill="#FFFFFF" stroke="#1F2328" stroke-width="2.5"/>' +
+    '<ellipse cx="31" cy="46" rx="6" ry="3.5" fill="#FFFFFF" stroke="#1F2328" stroke-width="2.5"/>' +
+    '<path d="M18 34 L46 34" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>',
+
+  sikhye:
+    '<path d="M5 24 H59 L53 44 C52 48, 45 51, 37 51 H27 C19 51, 12 48, 11 44 Z" fill="#FFFFFF" stroke="#1F2328" stroke-width="4" stroke-linejoin="round"/>' +
+    '<path d="M8 30 H56" fill="none" stroke="#C81D25" stroke-width="3.5"/>' +
+    '<circle cx="20" cy="38" r="2.2" fill="#1F2328"/>' +
+    '<circle cx="32" cy="42" r="2.2" fill="#1F2328"/>' +
+    '<circle cx="44" cy="37" r="2.2" fill="#1F2328"/>' +
+    '<circle cx="26" cy="44" r="2" fill="#1F2328"/>' +
+    '<path d="M29 27 L35 27 L32 21 Z" fill="#6B7280" stroke="#1F2328" stroke-width="2" stroke-linejoin="round"/>'
+};
+
+function iconHTML(key, size){
+  var inner = ICONS[key] || '';
+  return '<svg class="icon icon-' + size + '" viewBox="0 0 64 64" aria-hidden="true">' + inner + '</svg>';
+}
+
+/* =========================================================
+   데이터 (음식 15개)
+   ========================================================= */
+var CAT = { JEON:'전·적', BAP:'밥·국', NAMUL:'나물·포', GWA:'과일·술' };
+
+var FOODS_GIJE = [
+  { id:'yukjeok', name:'육적(소고기산적)', short:'육적', cat:CAT.JEON, cook:true,
+    ing:'소고기(우둔살), 진간장, 참기름, 설탕, 청주', qty:'600g (1근, 3꼬치 분량)',
+    steps:[
+      '소고기 우둔살을 1cm 두께로 넓게 썬다.',
+      '칼등으로 두드리고 칼집을 넣어 힘줄을 끊는다.',
+      '진간장·참기름·설탕·청주를 섞은 양념에 30분 재운다.',
+      '고기를 꼬치에 가지런히 꿴다.',
+      '달군 팬에 기름을 두르고 앞뒤로 굽는다.'
+    ] },
+  { id:'dongtaejeon', name:'동태전', short:'동태전', cat:CAT.JEON, cook:true,
+    ing:'동태살 포, 달걀, 소금, 밀가루, 식용유', qty:'400g (달걀 3개)',
+    steps:[
+      '동태살 포의 물기를 키친타월로 닦는다.',
+      '소금을 살짝 뿌려 밑간한다.',
+      '밀가루를 얇게 고루 입힌다.',
+      '풀어둔 달걀물에 담근다.',
+      '약불 팬에 식용유를 두르고 노랗게 지진다.'
+    ] },
+  { id:'dubu', name:'두부부침', short:'두부부침', cat:CAT.JEON, cook:true,
+    ing:'단단한 부침용 두부, 들기름, 소금', qty:'두부 1모 (500g)',
+    steps:[
+      '두부를 1.5cm 두께로 네모지게 썬다.',
+      '키친타월에 올려 물기를 충분히 뺀다.',
+      '양면에 소금을 고루 뿌린다.',
+      '들기름 두른 팬에 앞뒤로 노릇하게 부친다.'
+    ] },
+  { id:'eojeok', name:'어적(조기구이)', short:'어적', cat:CAT.JEON, cook:true,
+    ing:'참조기, 천일염', qty:'1마리 또는 3마리 (홀수)',
+    steps:[
+      '참조기의 비늘과 내장을 손질한다.',
+      '흐르는 물에 씻어 물기를 뺀다.',
+      '천일염을 고루 뿌려 20분 둔다.',
+      '찜기에 찌거나 팬에 노릇하게 굽는다.',
+      '머리가 왼쪽을 향하도록 접시에 담는다.'
+    ] },
+  { id:'gaeng', name:'갱(소고기뭇국)', short:'갱(국)', cat:CAT.BAP, cook:true,
+    ing:'소고기(양지), 뭇국용 무, 조선간장, 다시마', qty:'무 1/3개, 소고기 300g',
+    steps:[
+      '무를 사방 3cm 크기로 얄팍하게 썬다.',
+      '양지 소고기를 한입 크기로 썬다.',
+      '냄비에 소고기와 다시마를 넣고 끓인다.',
+      '다시마를 건져내고 무를 넣어 투명해질 때까지 끓인다.',
+      '조선간장으로만 맑게 간을 맞춘다.'
+    ] },
+  { id:'samsaektang', name:'삼색탕(육어두부탕)', short:'삼색탕', cat:CAT.BAP, cook:true,
+    ing:'소고기, 명태포, 두부, 맑은 간장', qty:'각 150g 내외',
+    steps:[
+      '소고기를 삶아 맑은 육수를 낸다.',
+      '명태포를 한입 크기로 자른다.',
+      '두부를 네모지게 썬다.',
+      '육수에 세 가지 재료를 나란히 넣고 끓인다.',
+      '맑은 간장으로 간을 맞춘다.'
+    ] },
+  { id:'me', name:'메(흰밥)', short:'메(밥)', cat:CAT.BAP, cook:true,
+    ing:'햅쌀(백미)', qty:'2공기 (신위 기준)',
+    steps:[
+      '햅쌀을 맑은 물이 나올 때까지 씻는다.',
+      '30분간 물에 불린다.',
+      '쌀과 같은 양의 물을 붓고 밥을 짓는다.',
+      '뜸을 들인 뒤 주발에 소복하게 담는다.'
+    ] },
+  { id:'namul', name:'삼색나물', short:'삼색나물', cat:CAT.NAMUL, cook:true,
+    ing:'도라지(백), 시금치(청), 고사리(갈), 참기름, 소금', qty:'각 200g씩',
+    steps:[
+      '도라지는 소금에 주물러 쓴맛을 뺀다.',
+      '시금치는 데쳐 찬물에 헹구고 물기를 짠다.',
+      '고사리는 삶아 부드럽게 준비한다.',
+      '각각 참기름과 소금으로만 무친다.',
+      '한 접시에 세 색을 나란히 담는다.'
+    ] },
+  { id:'nabak', name:'나박김치', short:'나박김치', cat:CAT.NAMUL, cook:true,
+    ing:'무, 배추, 배, 소금, 생강즙', qty:'1대접 (고춧가루 제외)',
+    steps:[
+      '무와 배추를 얄팍한 사방 모양으로 썬다.',
+      '소금에 살짝 절여 물기를 뺀다.',
+      '배를 갈아 즙을 낸다.',
+      '생강즙과 배즙을 물에 섞어 맑은 국물을 만든다.',
+      '절인 무와 배추를 넣고 하루 익힌다.'
+    ] },
+  { id:'bugeo', name:'북어포', short:'북어포', cat:CAT.NAMUL, cook:false,
+    ing:'통북어포 (통마리 건포)', qty:'1마리', steps:[] },
+  { id:'cheongju', name:'제주(청주)', short:'제주(잔)', cat:CAT.GWA, cook:false,
+    ing:'맑은 차례주(청주)', qty:'1병 (700ml)', steps:[] },
+  { id:'daechubam', name:'대추와 밤', short:'대추와 밤', cat:CAT.GWA, cook:false,
+    ing:'통대추, 깐밤 (생밤)', qty:'대추 1홉, 밤 15~20알', steps:[] },
+  { id:'bae', name:'배', short:'배', cat:CAT.GWA, cook:false,
+    ing:'둥근 배 (신고배 등)', qty:'3개 또는 5개 (홀수)', steps:[] },
+  { id:'sagwa', name:'사과', short:'사과', cat:CAT.GWA, cook:false,
+    ing:'붉은 사과 (부사 등)', qty:'3개 또는 5개 (홀수)', steps:[] },
+  { id:'gotgam', name:'곶감', short:'곶감', cat:CAT.GWA, cook:false,
+    ing:'건시 또는 반건시', qty:'1접 (5~7개)', steps:[] }
+];
+
+var FOODS_CHARYE = [
+  { id:'yukjeok', name:'육적(소고기산적)', short:'육적', cat:CAT.JEON, cook:true,
+    ing:'소고기(우둔살), 진간장, 참기름, 설탕, 청주', qty:'600g (1근, 3꼬치 분량)',
+    steps:[
+      '소고기 우둔살을 1cm 두께로 넓게 썬다.',
+      '칼등으로 두드리고 칼집을 넣어 힘줄을 끊는다.',
+      '진간장·참기름·설탕·청주를 섞은 양념에 30분 재운다.',
+      '고기를 꼬치에 가지런히 꿴다.',
+      '달군 팬에 기름을 두르고 앞뒤로 굽는다.'
+    ] },
+  { id:'dongtaejeon', name:'동태전', short:'동태전', cat:CAT.JEON, cook:true,
+    ing:'동태살 포, 달걀, 소금, 밀가루, 식용유', qty:'400g (달걀 3개)',
+    steps:[
+      '동태살 포의 물기를 키친타월로 닦는다.',
+      '소금을 살짝 뿌려 밑간한다.',
+      '밀가루를 얇게 고루 입힌다.',
+      '풀어둔 달걀물에 담근다.',
+      '약불 팬에 식용유를 두르고 노랗게 지진다.'
+    ] },
+  { id:'dubu', name:'두부부침', short:'두부부침', cat:CAT.JEON, cook:true,
+    ing:'단단한 부침용 두부, 들기름, 소금', qty:'두부 1모 (500g)',
+    steps:[
+      '두부를 1.5cm 두께로 네모지게 썬다.',
+      '키친타월에 올려 물기를 충분히 뺀다.',
+      '양면에 소금을 고루 뿌린다.',
+      '들기름 두른 팬에 앞뒤로 노릇하게 부친다.'
+    ] },
+  { id:'eojeok', name:'어적(조기구이)', short:'어적', cat:CAT.JEON, cook:true,
+    ing:'참조기, 천일염', qty:'1마리 또는 3마리 (홀수)',
+    steps:[
+      '참조기의 비늘과 내장을 손질한다.',
+      '흐르는 물에 씻어 물기를 뺀다.',
+      '천일염을 고루 뿌려 20분 둔다.',
+      '찜기에 찌거나 팬에 노릇하게 굽는다.',
+      '머리가 왼쪽을 향하도록 접시에 담는다.'
+    ] },
+  { id:'tteokguk', name:'떡국', short:'떡국', cat:CAT.BAP, cook:true,
+    ing:'가래떡, 사골육수(또는 양지머리 육수), 달걀, 다진 파, 조선간장', qty:'4인분 (가래떡 500g)',
+    steps:[
+      '흰 가래떡을 0.5cm 두께로 어슷 썬다.',
+      '사골 또는 양지머리를 오래 끓여 맑은 육수를 낸다.',
+      '달걀은 흰자·노른자를 나눠 지단을 부친 뒤 곱게 채 썬다.',
+      '끓는 육수에 썬 가래떡을 넣고 떠오를 때까지 끓인다.',
+      '조선간장으로 간을 맞추고 그릇에 담은 뒤 지단을 고명으로 올린다.'
+    ] },
+  { id:'samsaektang', name:'삼색탕(육어두부탕)', short:'삼색탕', cat:CAT.BAP, cook:true,
+    ing:'소고기, 명태포, 두부, 맑은 간장', qty:'각 150g 내외',
+    steps:[
+      '소고기를 삶아 맑은 육수를 낸다.',
+      '명태포를 한입 크기로 자른다.',
+      '두부를 네모지게 썬다.',
+      '육수에 세 가지 재료를 나란히 넣고 끓인다.',
+      '맑은 간장으로 간을 맞춘다.'
+    ] },
+  { id:'namul', name:'삼색나물', short:'삼색나물', cat:CAT.NAMUL, cook:true,
+    ing:'도라지(백), 시금치(청), 고사리(갈), 참기름, 소금', qty:'각 200g씩',
+    steps:[
+      '도라지는 소금에 주물러 쓴맛을 뺀다.',
+      '시금치는 데쳐 찬물에 헹구고 물기를 짠다.',
+      '고사리는 삶아 부드럽게 준비한다.',
+      '각각 참기름과 소금으로만 무친다.',
+      '한 접시에 세 색을 나란히 담는다.'
+    ] },
+  { id:'nabak', name:'나박김치', short:'나박김치', cat:CAT.NAMUL, cook:true,
+    ing:'무, 배추, 배, 소금, 생강즙', qty:'1대접 (고춧가루 제외)',
+    steps:[
+      '무와 배추를 얄팍한 사방 모양으로 썬다.',
+      '소금에 살짝 절여 물기를 뺀다.',
+      '배를 갈아 즙을 낸다.',
+      '생강즙과 배즙을 물에 섞어 맑은 국물을 만든다.',
+      '절인 무와 배추를 넣고 하루 익힌다.'
+    ] },
+  { id:'bugeo', name:'북어포', short:'북어포', cat:CAT.NAMUL, cook:false,
+    ing:'통북어포 (통마리 건포)', qty:'1마리', steps:[] },
+  { id:'cheongju', name:'제주(청주)', short:'제주(잔)', cat:CAT.GWA, cook:false,
+    ing:'맑은 차례주(청주)', qty:'1병 (700ml)', steps:[] },
+  { id:'sikhye', name:'식혜', short:'식혜', cat:CAT.GWA, cook:false,
+    ing:'식혜 (직접 담그거나 시판 제품)', qty:'1대접 (500ml)', steps:[] },
+  { id:'daechubam', name:'대추와 밤', short:'대추와 밤', cat:CAT.GWA, cook:false,
+    ing:'통대추, 깐밤 (생밤)', qty:'대추 1홉, 밤 15~20알', steps:[] },
+  { id:'bae', name:'배', short:'배', cat:CAT.GWA, cook:false,
+    ing:'둥근 배 (신고배 등)', qty:'3개 또는 5개 (홀수)', steps:[] },
+  { id:'sagwa', name:'사과', short:'사과', cat:CAT.GWA, cook:false,
+    ing:'붉은 사과 (부사 등)', qty:'3개 또는 5개 (홀수)', steps:[] },
+  { id:'gotgam', name:'곶감', short:'곶감', cat:CAT.GWA, cook:false,
+    ing:'건시 또는 반건시', qty:'1접 (5~7개)', steps:[] }
+];
+
+/* =========================================================
+   제사상 종류 (기제사 / 차례) 전환
+   ========================================================= */
+var JINSEOL_GIJE = [
+  { label:'1열', ids:['me','cheongju','gaeng'] },
+  { label:'2열', ids:['yukjeok','eojeok','dongtaejeon','dubu'] },
+  { label:'3열', ids:['samsaektang'] },
+  { label:'4열', ids:['bugeo','namul','nabak'] },
+  { label:'5열', ids:['daechubam','bae','sagwa','gotgam'] }
+];
+var JINSEOL_CHARYE = [
+  { label:'1열', ids:['tteokguk','cheongju'] },
+  { label:'2열', ids:['yukjeok','eojeok','dongtaejeon','dubu'] },
+  { label:'3열', ids:['samsaektang'] },
+  { label:'4열', ids:['bugeo','namul','nabak','sikhye'] },
+  { label:'5열', ids:['daechubam','bae','sagwa','gotgam'] }
+];
+
+var JESANG_TYPES = [
+  { id:'gije', label:'기제사', desc:'고인의 기일에 지내는 제사입니다.', foods:FOODS_GIJE, jinseol:JINSEOL_GIJE },
+  { id:'charye', label:'차례(명절)', desc:'설날 등 명절 아침에 지내는 차례입니다. 메·갱 대신 떡국을 올립니다.', foods:FOODS_CHARYE, jinseol:JINSEOL_CHARYE }
+];
+var currentType = 'gije';
+var FOODS = FOODS_GIJE;
+var JINSEOL = JINSEOL_GIJE;
+
+function getTypeObj(id){
+  for (var i = 0; i < JESANG_TYPES.length; i++){ if (JESANG_TYPES[i].id === id) return JESANG_TYPES[i]; }
+  return JESANG_TYPES[0];
+}
+
+function selectType(id){
+  var t = getTypeObj(id);
+  currentType = t.id;
+  FOODS = t.foods;
+  JINSEOL = t.jinseol;
+  currentFood = null;
+  activeFilter = 'all';
+  renderTypeSelect();
+  renderList();
+  renderChart();
+  renderRecipe();
+  renderFilters();
+  renderIngredients();
+}
+
+function renderTypeSelect(){
+  var el = document.getElementById('type-select');
+  if (!el) return;
+  var t = getTypeObj(currentType);
+  var html = '';
+  for (var i = 0; i < JESANG_TYPES.length; i++){
+    var opt = JESANG_TYPES[i];
+    html += '<button type="button" data-type="' + opt.id + '"' +
+            (opt.id === currentType ? ' class="active"' : '') + '>' +
+            esc(opt.label) + '</button>';
+  }
+  el.innerHTML = html;
+  var btns = el.querySelectorAll('button');
+  for (var j = 0; j < btns.length; j++){
+    btns[j].addEventListener('click', function(){ selectType(this.getAttribute('data-type')); });
+  }
+  var descEl = document.getElementById('type-desc');
+  if (descEl) descEl.textContent = t.desc;
+}
+
+var NOCOOK_MSG = '조리하지 않는 음식입니다.';
+var ERR_LOAD = '을 불러오지 못했어요. 인터넷 연결을 확인한 뒤 새로고침해 주세요.';
+var ERR_EMPTY = '이 음식의 OO는 아직 준비되지 않았어요. 음식 목록으로 돌아가 다른 음식을 선택해 주세요.';
+
+function findFood(id){
+  for (var i = 0; i < FOODS.length; i++){ if (FOODS[i].id === id) return FOODS[i]; }
+  return null;
+}
+function esc(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+function failBox(what){
+  return '<div class="empty"><p>' + esc(what) + ERR_LOAD + '</p>' +
+         '<button type="button" class="btn" onclick="location.reload()">새로고침</button></div>';
+}
+
+/* =========================================================
+   A. 제사상 목록
+   ========================================================= */
+function renderList(){
+  var el = document.getElementById('food-grid');
+  try {
+    if (!FOODS.length) throw new Error('empty');
+    var html = '';
+    for (var i = 0; i < FOODS.length; i++){
+      var f = FOODS[i];
+      html += '<button type="button" class="food-card" data-food="' + f.id + '">' +
+                iconHTML(f.id, 64) +
+                '<div class="name">' + esc(f.name) + '</div>' +
+                '<span class="tag">' + esc(f.cat) + '</span>' +
+              '</button>';
+    }
+    el.innerHTML = html;
+    var cards = el.querySelectorAll('.food-card');
+    for (var j = 0; j < cards.length; j++){
+      cards[j].addEventListener('click', function(){
+        openRecipe(this.getAttribute('data-food'));
+      });
+    }
+  } catch (e) {
+    el.outerHTML = '<div id="food-grid">' + failBox('음식 목록') + '</div>';
+  }
+}
+
+/* =========================================================
+   진설도 (SVG 한 장, 5줄 구성)
+   ========================================================= */
+function renderChart(){
+  var host = document.getElementById('chart-card');
+  try {
+    var W = 1000, BOX_W = 176, BOX_H = 56, GAP = 16;
+    var ROW_TOP = 92, ROW_STEP = 76;
+    var H = ROW_TOP + (JINSEOL.length - 1) * ROW_STEP + BOX_H + 28;
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="제사상 진설도">';
+
+    /* 상(床) 바탕 */
+    s += '<rect x="16" y="8" width="' + (W - 32) + '" height="' + (H - 16) + '" rx="16" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>';
+
+    /* 신위 */
+    s += '<rect x="400" y="24" width="200" height="44" rx="8" fill="#C81D25" stroke="#C99A2E" stroke-width="2"/>';
+    s += '<text x="500" y="52" text-anchor="middle" font-family="inherit" font-size="17" font-weight="700" fill="#FFFFFF">신위(지방)</text>';
+
+    for (var r = 0; r < JINSEOL.length; r++){
+      var row = JINSEOL[r];
+      var y = ROW_TOP + r * ROW_STEP;
+      var n = row.ids.length;
+      var totalW = n * BOX_W + (n - 1) * GAP;
+      var x0 = (W - totalW) / 2;
+
+      s += '<text x="48" y="' + (y + 34) + '" font-family="inherit" font-size="14" fill="#6B7280">' + row.label + '</text>';
+
+      for (var c = 0; c < n; c++){
+        var f = findFood(row.ids[c]);
+        if (!f) continue;
+        var x = x0 + c * (BOX_W + GAP);
+        s += '<rect x="' + x + '" y="' + y + '" width="' + BOX_W + '" height="' + BOX_H + '" rx="8" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>';
+        s += '<text x="' + (x + BOX_W / 2) + '" y="' + (y + 35) + '" text-anchor="middle" font-family="inherit" font-size="16" fill="#1F2328">' + esc(f.short) + '</text>';
+      }
+    }
+    s += '</svg>';
+    host.innerHTML = s;
+  } catch (e) {
+    host.outerHTML = '<div id="chart-card">' + failBox('진설도') + '</div>';
+  }
+}
+
+/* =========================================================
+   B. 레시피
+   ========================================================= */
+var currentFood = null;
+
+function openRecipe(id){
+  currentFood = id;
+  renderRecipe();
+  showTab('recipe');
+}
+
+function renderRecipe(){
+  var host = document.getElementById('recipe-body');
+
+  if (!currentFood){
+    host.innerHTML =
+      '<div class="empty"><p>제사상 목록에서 음식을 선택하면 만드는 순서를 볼 수 있어요.</p>' +
+      '<button type="button" class="btn" id="go-list">음식 목록으로 가기</button></div>';
+    document.getElementById('go-list').addEventListener('click', function(){ showTab('list'); });
+    return;
+  }
+
+  var f = findFood(currentFood);
+  if (!f){
+    host.innerHTML = '<div class="empty"><p>' + ERR_EMPTY + '</p>' +
+      '<button type="button" class="btn" id="go-list">음식 목록으로 가기</button></div>';
+    document.getElementById('go-list').addEventListener('click', function(){ showTab('list'); });
+    return;
+  }
+
+  var html = '<div class="recipe">' +
+    '<div class="recipe-visual">' +
+      iconHTML(f.id, 160) +
+      '<div class="name">' + esc(f.name) + '</div>' +
+      '<span class="tag">' + esc(f.cat) + '</span>' +
+    '</div><div>';
+
+  if (!f.cook){
+    /* 비조리 음식: 안내 한 줄만 (조리 순서·재료 목록 없음) */
+    html += '<p class="nocook-msg">' + NOCOOK_MSG + '</p>';
+  } else if (!f.steps || !f.steps.length){
+    html += '<p class="nocook-msg">' + ERR_EMPTY + '</p>';
+  } else {
+    html += '<h2>만드는 순서</h2><ol class="steps">';
+    for (var i = 0; i < f.steps.length; i++){
+      html += '<li>' + esc(f.steps[i]) + '</li>';
+    }
+    html += '</ol>';
+    html += '<div class="ing-box"><h2>재료</h2><div class="ing-list">';
+    var parts = f.ing.split(',');
+    for (var k = 0; k < parts.length; k++){
+      html += '<div class="ing-row"><span>' + esc(parts[k].trim()) + '</span></div>';
+    }
+    html += '</div>' +
+            '<div class="ing-row" style="margin-top:16px;border-bottom:0"><span class="k">권장 분량</span><span>' + esc(f.qty) + '</span></div>' +
+            '</div>';
+  }
+
+  html += '</div></div>' +
+    '<div class="section"><button type="button" class="btn" id="go-list">음식 목록으로 돌아가기</button></div>';
+
+  host.innerHTML = html;
+  document.getElementById('go-list').addEventListener('click', function(){ showTab('list'); });
+}
+
+/* =========================================================
+   재료 탭
+   ========================================================= */
+var FILTERS = [
+  { key:'all',      label:'전체보기' },
+  { key:CAT.BAP,    label:'탕·국류' },
+  { key:CAT.JEON,   label:'전·적류' },
+  { key:CAT.NAMUL,  label:'나물·포류' },
+  { key:CAT.GWA,    label:'과일·술' }
+];
+var activeFilter = 'all';
+
+function renderFilters(){
+  var el = document.getElementById('filters');
+  var html = '';
+  for (var i = 0; i < FILTERS.length; i++){
+    html += '<button type="button" data-f="' + esc(FILTERS[i].key) + '"' +
+            (FILTERS[i].key === activeFilter ? ' class="active"' : '') + '>' +
+            esc(FILTERS[i].label) + '</button>';
+  }
+  el.innerHTML = html;
+  var btns = el.querySelectorAll('button');
+  for (var j = 0; j < btns.length; j++){
+    btns[j].addEventListener('click', function(){
+      activeFilter = this.getAttribute('data-f');
+      renderFilters();
+      renderIngredients();
+    });
+  }
+}
+
+function renderIngredients(){
+  var tableHost = document.getElementById('ing-tablewrap');
+  var nocookHost = document.getElementById('nocook-section');
+
+  try {
+    var cooked = [], raw = [];
+    for (var i = 0; i < FOODS.length; i++){
+      var f = FOODS[i];
+      if (activeFilter !== 'all' && f.cat !== activeFilter) continue;
+      (f.cook ? cooked : raw).push(f);
+    }
+
+    /* 조리 음식 표 */
+    if (!cooked.length){
+      tableHost.innerHTML = '';
+    } else {
+      var t = '<div class="table-card"><table><thead><tr>' +
+        '<th>음식명</th><th>분류</th><th>주요 재료</th><th>권장 분량</th>' +
+        '</tr></thead><tbody>';
+      for (var c = 0; c < cooked.length; c++){
+        var g = cooked[c];
+        t += '<tr>' +
+             '<td class="food-name">' + esc(g.name) + '</td>' +
+             '<td><span class="tag">' + esc(g.cat) + '</span></td>' +
+             '<td>' + esc(g.ing) + '</td>' +
+             '<td class="qty">' + esc(g.qty) + '</td>' +
+             '</tr>';
+      }
+      t += '</tbody></table></div>';
+      tableHost.innerHTML = t;
+    }
+
+    /* 비조리 음식: 아이콘만 보여주는 별도 섹션 */
+    if (!raw.length){
+      nocookHost.innerHTML = '';
+    } else {
+      var n = '<h2>조리하지 않는 음식</h2>' +
+              '<p class="lead" style="margin-bottom:16px">' + NOCOOK_MSG +
+              ' 가열 조리 없이 깨끗이 손질하여 올립니다.</p><div class="nocook-grid">';
+      for (var r = 0; r < raw.length; r++){
+        n += '<div class="nocook-card">' + iconHTML(raw[r].id, 64) +
+             '<div class="name">' + esc(raw[r].short) + '</div>' +
+             '<div class="sub">비조리</div></div>';
+      }
+      n += '</div>';
+      nocookHost.innerHTML = n;
+    }
+
+    if (!cooked.length && !raw.length){
+      tableHost.innerHTML = failBox('재료 목록');
+    }
+  } catch (e) {
+    tableHost.innerHTML = failBox('재료 목록');
+    nocookHost.innerHTML = '';
+  }
+}
+
+/* =========================================================
+   탭 전환
+   ========================================================= */
+function showTab(tab){
+  var views = document.querySelectorAll('.view');
+  for (var i = 0; i < views.length; i++){
+    views[i].classList.toggle('active', views[i].id === 'view-' + tab);
+  }
+  var btns = document.querySelectorAll('#nav button');
+  for (var j = 0; j < btns.length; j++){
+    btns[j].classList.toggle('active', btns[j].getAttribute('data-tab') === tab);
+  }
+  if (tab === 'recipe') renderRecipe();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+document.getElementById('nav').addEventListener('click', function(e){
+  var b = e.target.closest('button[data-tab]');
+  if (b) showTab(b.getAttribute('data-tab'));
+});
+
+/* =========================================================
+   초기화
+   ========================================================= */
+renderTypeSelect();
+renderList();
+renderChart();
+renderRecipe();
+renderFilters();
+renderIngredients();
+</script>
+</body>
+</html>
